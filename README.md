@@ -1,24 +1,63 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Rack
+https://railsguides.jp/rails_on_rack.html
 
-Things you may want to cover:
+### overview
+- APサーバーとフレームワークの中間に存在するもの
+- Rackのおかげで両者が疎結合になり、組み合わせやすくなった
+- Rackミドルウェア: Rack層からフレームワーク層の間で独自の処理を挟める
 
-* Ruby version
 
-* System dependencies
+```ruby
+def call(env)
+  [http_status, http_headers, response_body]
+end
+```
+- useメソッドでミドルウェアを追加できる
+  - https://github.com/rack/rack-contrib
 
-* Configuration
+### RailsでもRackミドルウェアを利用している
 
-* Database creation
+```shell
+% bin/rails middleware                                                                       ✔ │ 2.6.6 
 
-* Database initialization
+use ActionDispatch::HostAuthorization
+use Rack::Sendfile
+use ActionDispatch::Static
+use ActionDispatch::Executor
+use ActiveSupport::Cache::Strategy::LocalCache::Middleware
+use Rack::Runtime
+use Rack::MethodOverride
+use ActionDispatch::RequestId
+use ActionDispatch::RemoteIp
+use Sprockets::Rails::QuietAssets
+use Rails::Rack::Logger
+use ActionDispatch::ShowExceptions
+use WebConsole::Middleware
+use ActionDispatch::DebugExceptions
+use ActionDispatch::ActionableExceptions
+use ActionDispatch::Reloader
+use ActionDispatch::Callbacks
+use ActiveRecord::Migration::CheckPending
+use ActionDispatch::Cookies
+use ActionDispatch::Session::CookieStore
+use ActionDispatch::Flash
+use ActionDispatch::ContentSecurityPolicy::Middleware
+use Rack::Head
+use Rack::ConditionalGet
+use Rack::ETag
+use Rack::TempfileReaper
+run RailsRackSample::Application.routes
 
-* How to run the test suite
 
-* Services (job queues, cache servers, search engines, etc.)
+# config.ruでは明示されてない
+# 開発専用のものも含まれているためproduction環境では少し異なる
+```
 
-* Deployment instructions
+### Rackミドルウェアの実行順を指定できる
+- config.middleware.use
+- config.middleware.insert_after
+- config.middleware.insert_before
+- config.middleware.delete
 
-* ...
