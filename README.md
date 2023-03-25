@@ -61,3 +61,6 @@ run RailsRackSample::Application.routes
 - config.middleware.insert_before
 - config.middleware.delete
 
+### igaigaさんRailsの練習帳
+https://zenn.dev/igaiga/books/rails-practice-note/viewer/rack_middleware_and_rack
+
